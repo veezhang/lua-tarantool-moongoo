@@ -1,7 +1,7 @@
-local Hi = require("resty.moongoo.utils").pbkdf2_hmac_sha1
-local saslprep = require("resty.moongoo.utils").saslprep
-local pass_digest = require("resty.moongoo.utils").pass_digest
-local xor_bytestr = require("resty.moongoo.utils").xor_bytestr
+local Hi = require("tarantool.moongoo.utils").pbkdf2_hmac_sha1
+local saslprep = require("tarantool.moongoo.utils").saslprep
+local pass_digest = require("tarantool.moongoo.utils").pass_digest
+local xor_bytestr = require("tarantool.moongoo.utils").xor_bytestr
 
 local b64 = ngx and ngx.encode_base64 or require("mime").b64
 local unb64 = ngx and ngx.decode_base64 or require("mime").unb64

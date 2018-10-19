@@ -1,4 +1,4 @@
-local pass_digest = require("resty.moongoo.utils").pass_digest
+local pass_digest = require("tarantool.moongoo.utils").pass_digest
 
 local b64 = ngx and ngx.encode_base64 or require("mime").b64
 local unb64 = ngx and ngx.decode_base64 or require("mime").unb64

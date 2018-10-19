@@ -1,5 +1,5 @@
 local cbson = require("cbson")
-local gfsfile = require("resty.moongoo.gridfs.file")
+local gfsfile = require("tarantool.moongoo.gridfs.file")
 
 local _M = {}
 

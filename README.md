@@ -97,7 +97,7 @@ To use outside of OpenResty you'll also need:
 ### Synopsis
 
 ```lua
-local moongoo = require("resty.moongoo")
+local moongoo = require("tarantool.moongoo")
 local cbson = require("cbson")
 
 local mg, err = moongoo.new("mongodb://user:password@hostname/?w=2")

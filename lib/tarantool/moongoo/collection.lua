@@ -1,6 +1,6 @@
 local cbson = require("cbson")
-local generate_oid = require("resty.moongoo.utils").generate_oid
-local cursor = require("resty.moongoo.cursor")
+local generate_oid = require("tarantool.moongoo.utils").generate_oid
+local cursor = require("tarantool.moongoo.cursor")
 
 local _M = {}
 

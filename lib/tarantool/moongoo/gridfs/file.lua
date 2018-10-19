@@ -1,5 +1,5 @@
 local cbson = require("cbson")
-local generate_oid = require("resty.moongoo.utils").generate_oid
+local generate_oid = require("tarantool.moongoo.utils").generate_oid
 
 
 local _M = {}

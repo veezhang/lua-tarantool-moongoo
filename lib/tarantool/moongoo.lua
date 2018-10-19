@@ -1,9 +1,9 @@
 local cbson = require("cbson")
-local connection = require("resty.moongoo.connection")
-local database = require("resty.moongoo.database")
-local parse_uri = require("resty.moongoo.utils").parse_uri
-local auth_scram = require("resty.moongoo.auth.scram")
-local auth_cr = require("resty.moongoo.auth.cr")
+local connection = require("tarantool.moongoo.connection")
+local database = require("tarantool.moongoo.database")
+local parse_uri = require("tarantool.moongoo.utils").parse_uri
+local auth_scram = require("tarantool.moongoo.auth.scram")
+local auth_cr = require("tarantool.moongoo.auth.cr")
 
 
 local _M = {}

@@ -1,6 +1,6 @@
 local cbson = require("cbson")
-local collection = require("resty.moongoo.collection")
-local gridfs = require("resty.moongoo.gridfs")
+local collection = require("tarantool.moongoo.collection")
+local gridfs = require("tarantool.moongoo.gridfs")
 
 local _M = {}
 
