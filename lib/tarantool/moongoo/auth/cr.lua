@@ -1,9 +1,10 @@
 local pass_digest = require("tarantool.moongoo.utils").pass_digest
 
-local b64 = ngx and ngx.encode_base64 or require("mime").b64
-local unb64 = ngx and ngx.decode_base64 or require("mime").unb64
+local b64 = function(str) return require('digest').base64_encode(str, {nowrap = true}) end
+local unb64 = function(str) return require('digest').base64_decode(str) end
 
-local md5 = ngx and ngx.md5 or function(str) return require("crypto").digest("md5", str) end
+local tohex = function (str) return (str:gsub('.', function (c) return string.format('%02x', string.byte(c)) end)) end
+local md5 = function(str) return tohex(require("crypto").digest.md5(str)) end
 
 local cbson = require("cbson")
 

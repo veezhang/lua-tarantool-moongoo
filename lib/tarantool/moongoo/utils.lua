@@ -1,8 +1,9 @@
 local bit = require("bit")
 local cbson = require("cbson")
 
-local md5 = ngx and ngx.md5 or function(str) return require("crypto").digest("md5", str) end
-local hmac_sha1 = ngx and ngx.hmac_sha1 or function(str, key) return require("crypto").hmac.digest("sha1", key, str, true) end
+local tohex = function (str) return (str:gsub('.', function (c) return string.format('%02x', string.byte(c)) end)) end
+local md5 = function(str) return tohex(require("crypto").digest.md5(str)) end
+local hmac_sha1 = function(str, key) return require("crypto").hmac.sha1(str, key) end
 local hasposix , posix = pcall(require, "posix")
 
 local machineid
@@ -31,14 +32,7 @@ math.randomseed(os.time())
 counter = math.random(100)
 
 local function generate_oid()
-  local pid = ngx and ngx.worker.pid() or nil
-  if not pid then
-    if hasposix then
-      pid = posix.getpid("pid")
-    else
-      pid = 1
-    end
-  end
+  local pid = hasposix and posix.getpid("pid") or 1
 
   pid = uint_to_hex(pid,2)
 

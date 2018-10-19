@@ -72,7 +72,7 @@ function _M.connect(self)
         self.connection:handshake()
       end
       if not self.version then
-        query = self:db(self.default_db):_cmd({ buildInfo = 1 })
+        local query = self:db(self.default_db):_cmd({ buildInfo = 1 })
         if query then
           self.version = query.version
         end
@@ -105,7 +105,7 @@ function _M.connect(self)
             self.connection:handshake()
           end
           if not self.version then
-            query = self:db(self.default_db):_cmd({ buildInfo = 1 })
+            local query = self:db(self.default_db):_cmd({ buildInfo = 1 })
             if query then
               self.version = query.version
             end

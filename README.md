@@ -1,3 +1,27 @@
+# LUA-TARANTOOL-MOONGOO
+for [tarantool](https://github.com/tarantool/tarantool) version
+
+some changes:
+
+* change resty to tarantool
+* remove all ngx
+* socket = require("socket").tcp -- tarantool [socket](https://tarantool.io/en/doc/2.0/reference/reference_lua/socket/) module
+* b64 => function(str) return require('digest').base64_encode(str, {nowrap = true}) end
+* unb64 => function(str) return require('digest').base64_decode(str) end
+* hmac_sha1 => function(str, key) return require("crypto").hmac.sha1(str, key) end
+* sha1_bin => function(str) return require("crypto").digest.sha1(str) end
+* md5 => function(str) return tohex(require("crypto").digest.md5(str)) end
+
+
+## Requirements
+* [lua-bson](https://github.com/isage/lua-cbson)
+* [luasec](http://luarocks.org/modules/brunoos/luasec) (luarocks install luasec)
+* [luabitop](http://luarocks.org/modules/luarocks/luabitop) (luarocks install luabitop)
+* [luaposix](http://luarocks.org/modules/gvvaughan/luaposix) (luarocks install luaposix)
+
+
+(The original as follows:)
+
 # LUA-RESTY-MOONGOO
 
 Adding some lua moondust to the mongo goo

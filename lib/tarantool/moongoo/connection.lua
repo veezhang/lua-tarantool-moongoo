@@ -1,4 +1,4 @@
-local socket = ngx and ngx.socket.tcp or require("socket").tcp
+local socket = require("socket").tcp
 local cbson = require("cbson")
 
 local opcodes = {
@@ -38,22 +38,14 @@ function _M.connect(self, host, port)
 end
 
 function _M.handshake(self)
-  if ngx then
-    self.sock:sslhandshake()
-  else
-    local ssl = require("ssl")
-    self.sock = ssl.wrap(self.sock, {mode = "client", protocol = "tlsv1_2"})
-    assert(self.sock)
-    self.sock:dohandshake()
-  end
+  local ssl = require("ssl")
+  self.sock = ssl.wrap(self.sock, {mode = "client", protocol = "tlsv1_2"})
+  assert(self.sock)
+  self.sock:dohandshake()
 end
 
 function _M.close(self)
-  if ngx then
-    self.sock:setkeepalive()
-  else
-    self.sock:close()
-  end
+  self.sock:close()
 end
 
 function _M.get_reused_times(self)
@@ -87,7 +79,7 @@ function _M._handle_reply(self)
     assert ( opcode == cbson.uint(opcodes.OP_REPLY ) )
     assert ( r_to == cbson.uint(self._id) )
 
-    local data = assert ( self.sock:receive ( tostring(length-16 ) ) )
+    local data = assert ( self.sock:receive ( tonumber(tostring(length-16 )) ) )
 
     local flags = cbson.raw_to_uint( string.sub(data , 1 , 4 ))
     local cursor_id = cbson.raw_to_uint( string.sub(data , 5 , 12 ))

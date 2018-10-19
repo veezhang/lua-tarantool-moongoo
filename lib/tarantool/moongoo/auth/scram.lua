@@ -3,11 +3,11 @@ local saslprep = require("tarantool.moongoo.utils").saslprep
 local pass_digest = require("tarantool.moongoo.utils").pass_digest
 local xor_bytestr = require("tarantool.moongoo.utils").xor_bytestr
 
-local b64 = ngx and ngx.encode_base64 or require("mime").b64
-local unb64 = ngx and ngx.decode_base64 or require("mime").unb64
+local b64 = function(str) return require('digest').base64_encode(str, {nowrap = true}) end
+local unb64 = function(str) return require('digest').base64_decode(str) end
 
-local hmac_sha1 = ngx and ngx.hmac_sha1 or function(str, key) return require("crypto").hmac.digest("sha1", key, str, true) end
-local sha1_bin = ngx and ngx.sha1_bin or function(str) return require("crypto").digest("sha1", str, true) end
+local hmac_sha1 = function(str, key) return require("crypto").hmac.sha1(str, key) end
+local sha1_bin = function(str) return require("crypto").digest.sha1(str) end
 
 local cbson = require("cbson")
 
@@ -20,7 +20,7 @@ local function auth(db, username, password)
 
   local sasl_start_payload = b64("n,," .. first_bare)
     
-  r, err = db:_cmd("saslStart", {
+  local r, err = db:_cmd("saslStart", {
     mechanism = "SCRAM-SHA-1" ;
     autoAuthorize = 1 ;
     payload =  cbson.binary(sasl_start_payload);
@@ -62,7 +62,7 @@ local function auth(db, username, password)
   local server_key = hmac_sha1(salted_pass, "Server Key")
   local server_sig = b64(hmac_sha1(server_key, auth_msg))
     
-  r, err = db:_cmd("saslContinue",{
+  local r, err = db:_cmd("saslContinue",{
     conversationId = conversationId ;
     payload =  cbson.binary(client_final);
   })
@@ -81,7 +81,7 @@ local function auth(db, username, password)
   end
     
   if not r['done'] then
-    r, err = db:_cmd("saslContinue", {
+    local r, err = db:_cmd("saslContinue", {
       conversationId = conversationId ;
       payload =  cbson.binary("") ;
     })
